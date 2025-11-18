@@ -6,11 +6,75 @@ using namespace std;
 template<typename T>
 class MyVector {
 /* TODO */
+private:
+    T* data;           // 동적 배열을 가리키는 포인터
+    size_t capacity;     // 현재 할당된 배열 크기
+    size_t length;       // 실제 저장된 요소 개수
 
+    void resize() {
+        cout << "Resize: " << capacity << " -> " << capacity * 2 << endl;
 
+        /* TODO */
+        // capacity의 크기를 2배로 늘리고, 새로운 배열을 생성하세요.
+        // 기존 데이터를 새로운 배열로 복사한 뒤, 기존 배열을 해제하세요.
 
+        capacity *= 2;
+        T *newData = (T*)malloc(sizeof(T) * capacity);
 
+        for (int i = 0; i < length; ++i) {
+            newData[i] = data[i];
+        }
+        
+        free(data);
+        data = newData;
+    }
 
+public:
+
+    // 초기 capacity를 2로 설정하고, length는 0으로 초기화하세요.
+    MyVector() : capacity(2), length(0) {
+        /* TODO */
+        // data는 capacity 크기의 배열을 동적 할당하세요.
+        data = (T*)malloc(sizeof(T) * capacity);
+    }
+
+    ~MyVector() {
+        /* TODO */
+        // 동적 할당된 data를 해제하세요.
+        free(data);
+    }
+
+    void push_back(const T& value) {
+        /* TODO */
+        // length가 capacity에 도달하면 resize()를 호출하세요.
+
+        if(length >= capacity) {
+            resize();
+        }
+
+        /* TODO */
+        // 새로운 요소를 배열 끝에 추가하고 length를 증가시키세요.
+
+        *(data + length) = value;
+        length++;
+    }
+
+    // 마지막 항목을 리턴하세요.
+    T pop_back() {
+        if (length == 0)
+            throw out_of_range("Vector is empty");
+        return data[--length]; // 마지막 요소 제거
+    }
+
+    // 주어진 index의 요소를 반환하세요.
+    T& operator[](const int index){
+        return data[index];
+    }
+
+    // 현재 저장된 요소 개수를 반환하세요.
+    size_t size() const {
+        return length;
+    }
 
 };
 
